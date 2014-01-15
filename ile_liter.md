@@ -1,5 +1,5 @@
 Program liczący ilość poszczególnych liter w tekście.
-
+```sh
 //STATYSTYKA LITER W TEKSCIE
 
 #include<stdio.h>
@@ -50,3 +50,4 @@ int main () {
   return 0;
 }
 
+```
