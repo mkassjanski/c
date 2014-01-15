@@ -1,3 +1,4 @@
+Mnożenie macierzy
 ```sh
 #include <stdio.h>
 
