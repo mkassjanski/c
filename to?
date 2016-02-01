@@ -1,0 +1,37 @@
+	import akka.actor._
+	
+	case object Ahoj
+	case class Msg(n: Int, first: ActorRef)
+
+	class MyActor extends Actor {
+		var next: ActorRef = null
+		var loops = 0 
+		def receive = {
+			case Msg(n, ar) => 
+				if(n > 0) {
+					next = context.actorOf(Props[MyActor], "aktor" + (n-1))
+					next ! Msg(n-1, ar)
+				} else {
+					next = ar
+					ar ! Ahoj
+				}
+			case Ahoj =>
+			loops = loops + 1 
+					println("Aktor-" + self.path.name)
+					if(loops == 10) {
+						context.system.terminate()
+					} else {
+						next ! Ahoj
+					}
+		}
+	}
+
+object Akka {
+	def main(args: Array[String]): Unit = {
+		val N = 7		
+		val system = ActorSystem("system")
+		val first = system.actorOf(Props[MyActor], "aktor" + N)
+		first ! Msg(N, first)
+	}
+}
+
